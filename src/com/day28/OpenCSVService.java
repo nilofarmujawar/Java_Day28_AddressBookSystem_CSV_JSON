@@ -1,29 +1,38 @@
 package com.day28;
 
+/**
+ * import all classes
+ */
+
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.opencsv.CSVReader;
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
+/**
+ * create a class name as OpenCSVService
+ */
 public class OpenCSVService {
     private static final String STRING_ARRAY_SAMPLE = "addressBook.csv";
 
-    // Writing to CSV
+    /**
+     * crete a method nme as writetoCsv
+     * Writing to CSV
+     * @param addressBookSystem
+     * @throws IOException
+     */
     public void writetoCsv(Map<String, Set<ContactPerson>> addressBookSystem) throws IOException {
         List<ContactPerson> contactList = new ArrayList<ContactPerson>();
         for (Map.Entry<String, Set<ContactPerson>> me : addressBookSystem.entrySet()) {
@@ -40,11 +49,17 @@ public class OpenCSVService {
         }
     }
 
-    // Reading data from CSV
+    /**
+     * creating a method name as readCsv
+     *  Reading data from CSV
+     * @throws Exception
+     */
     public void readCsv() throws Exception {
         try (Reader reader = Files.newBufferedReader(Paths.get(STRING_ARRAY_SAMPLE));
              CSVReader csvReader = new CSVReader(reader);) {
-            // Reading Records One by One in a String array
+            /**
+             * Reading Records One by One in a String array
+             */
             String[] nextRecord = csvReader.readNext();
             while ((nextRecord = csvReader.readNext()) != null) {
                 System.out.println("First Name : " + nextRecord[3]);
