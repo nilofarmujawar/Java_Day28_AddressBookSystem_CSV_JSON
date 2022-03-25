@@ -13,16 +13,14 @@ package com.day28;
  * UC9 :- Ability to view Persons by City or State
  * UC10 :- Ability to get number of contact persons i.e. count by City or State
  * UC11 :- Ability to sort the entries in the address book alphabetically by Person’s name
- * UC12 :- Ability to sort the entries in the address book by City,State, or Zip
- *
  */
 
 /**
  * import hashmap class
- * import iterator class
- * import map class
- * import scanner class
- * import set class
+ * import Iterator class
+ * Import map class
+ * Import scanner class
+ * Import set class
  */
 import java.util.HashMap;
 import java.util.Iterator;
@@ -124,14 +122,12 @@ public class AddressBookMain {
                     addressBook.countByOption();
                     break;
                 case 7:
-                    System.out.println("Welcome to the sorting data alphabetically");
-                    addressBook.sortByOption();
-                case 8:
                     /**
                      * closing the scanner
                      */
                     sc.close();
                     return;
+
                 default:
                     System.out.println("You Entered Invalid Choice....!");
                     break;
