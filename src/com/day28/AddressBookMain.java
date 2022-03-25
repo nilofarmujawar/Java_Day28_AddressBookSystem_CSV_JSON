@@ -14,7 +14,6 @@ package com.day28;
  * UC10 :- Ability to get number of contact persons i.e. count by City or State
  * UC11 :- Ability to sort the entries in the address book alphabetically by Person’s name
  * UC12 :- Ability to sort the entries in the address book by City,State, or Zip
- * UC13 :- Ability to Read or Write the Address Book with  Persons Contact into a File using File IO
  *
  */
 
@@ -97,14 +96,8 @@ public class AddressBookMain {
                     while (i.hasNext()) {
                         System.out.println(i.next());
                     }
-                    /**
-                     * choose the option which address book name u want to open
-                     */
                     System.out.println("Enter Address Book name you want to Open : ");
                     String name = sc.nextLine();
-                    /**
-                     * display current address book name
-                     */
                     System.out.println("Current Address Book is : " + name);
                     /**
                      * call method with passing address book name
@@ -112,9 +105,6 @@ public class AddressBookMain {
                     AddressBookSystem.addressBookOptions(addressBookMap.get(name));
                     break;
                 case 3:
-                    /**
-                     * display address book name to be deleted
-                     */
                     System.out.println("Enter Address Book name to be delete: ");
                     name = sc.nextLine();
                     /**
@@ -123,42 +113,18 @@ public class AddressBookMain {
                     addressBookMap.remove(name);
                     break;
                 case 4:
-                    /**
-                     * display all the search options
-                     */
                     System.out.println("Welcome to the search option:");
-                    /**
-                     * calling searchByOptions method from object name as addressBook
-                     */
                     addressBook.searchByOptions();
                 case 5:
-                    /**
-                     * display all the search options
-                     */
                     System.out.println("Welcome to view By Option:");
-                    /**
-                     * calling viewByOption method from object name as addressBook
-                     */
                     addressBook.viewByOption(addressBookMap);
                     break;
                 case 6:
-                    /**
-                     * display welcome msg for counter
-                     */
                     System.out.println("Welcome to the counter");
-                    /**
-                     * calling countByOption method from object name as addressBook
-                     */
                     addressBook.countByOption();
                     break;
                 case 7:
-                    /**
-                     * display welcome msg for soting data alphabetically
-                     */
                     System.out.println("Welcome to the sorting data alphabetically");
-                    /**
-                     * calling sortByOption method from object name as addressBook
-                     */
                     addressBook.sortByOption();
                 case 8:
                     /**
@@ -166,9 +132,6 @@ public class AddressBookMain {
                      */
                     sc.close();
                     return;
-                /**
-                 * if all the cases are false then execute default case
-                 */
                 default:
                     System.out.println("You Entered Invalid Choice....!");
                     break;

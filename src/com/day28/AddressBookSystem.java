@@ -35,14 +35,8 @@ public class AddressBookSystem {
      * store the State of person in this object
      */
     public static Map<String, Contacts> stateHashMap = new HashMap<String, Contacts>();
-    /**
-     *  creating scanner class object
-     *  scanner class used to taking input form user
-     */
+
     static Scanner sc = new Scanner(System.in);
-    /**
-     * creating an object for AddressBookSystem class object name as addressBook
-     */
     static AddressBookSystem addressBook = new AddressBookSystem();
 
     /**
@@ -80,10 +74,6 @@ public class AddressBookSystem {
      * @return person
      */
     public List<Contacts> searchByCity(String city) {
-        /**
-         * collection list of element
-         * stream and lambda for find filter given city from arraylist
-         */
         return contactList.stream().filter(person -> person.getCity().equalsIgnoreCase(city))
                 .collect(Collectors.toList());
     }
@@ -94,63 +84,38 @@ public class AddressBookSystem {
      * @return person
      */
     public List<Contacts> searchByState(String state) {
-        /**
-         * collection list of element
-         * stream and lambda for find filter given State from arraylist
-         */
         return contactList.stream().filter(person -> person.getState().equalsIgnoreCase(state))
                 .collect(Collectors.toList());
     }
 
     /**
-     * Method to view person by name
-     * @param nameHashMap persons name
+     * Method to view person
+     * @param nameHashMap
      */
     public static void viewByName(Map<String, Contacts> nameHashMap) {
         nameHashMap.entrySet().stream().forEach(e -> System.out.println(e.getKey() + "=" + e.getValue().toString()));
     }
 
-    /**
-     * Method to view person by city
-     * @param cityHashMap persons city
-     */
     public static void viewByCity(Map<String, Contacts> cityHashMap) {
         cityHashMap.entrySet().stream().forEach(e -> System.out.println(e.getKey() + "=" + e.getValue().toString()));
     }
 
-    /**
-     * Method to view person by state
-     * @param stateHashMap persons state
-     */
     public static void viewByState(Map<String, Contacts> stateHashMap) {
         stateHashMap.entrySet().stream().forEach(e -> System.out.println(e.getKey() + "=" + e.getValue().toString()));
     }
 
     /**
+     *
      * creating sortby method for sorting the data
      */
     public static List<Contacts> sortBy(Function<? super Contacts, ? extends String> key) {
-        /**
-         * in contactList sorted the data and comapring with key and collect to the previous result in list
-         */
         return contactList.stream().sorted(Comparator.comparing(key)).collect(Collectors.toList());
     }
-    /**
-     * creating sortbyZip method for sorting the data by perons zip code
-     */
+
     public static List<Contacts> sortByZip(Function<? super Contacts, ? extends Long> key) {
-        /**
-         * in contactList sorted the data and comapring with key and collect to the previous result in list
-         */
         return contactList.stream().sorted(Comparator.comparing(key)).collect(Collectors.toList());
     }
-    /**
-     * creating sortByName method for sorting the data by perons Name
-     */
     public static List<Contacts> sortByName(Function<? super Contacts, ? extends String> key) {
-        /**
-         * in contactList sorted the data and comapring with key and collect to the previous result in list
-         */
         return contactList.stream().sorted(Comparator.comparing(key)).collect(Collectors.toList());
     }
 
@@ -303,21 +268,11 @@ public class AddressBookSystem {
                      * call addcontact with passing method readcontact
                      */
                     if (addressBook.addContact(readContact()))
-                    /**
-                     *  create a new contact check in address book this contact duplicate or not
-                     *  they are not duplicate then display this msg
-                     */
                         System.out.println("Contact Added Successfully....!");
-                    /**
-                     * if duplicate contact present in address book then print this msg
-                     */
                     else
                         System.out.println("Contact Already Exist....!");
                     break;
                 case 2:
-                    /**
-                     * if u want edit ur 1st name then enter the first name in contact
-                     */
                     System.out.println("Enter First name to edit contact: ");
                     String name = sc.nextLine();
                     /**
@@ -328,9 +283,6 @@ public class AddressBookSystem {
                      * if not match found
                      */
                     if (equalName.isEmpty())
-                    /**
-                     * match not fount then display data not found msg
-                     */
                         System.out.println("Data Not Found....!");
                     /**
                      * if only one equal match found
@@ -382,9 +334,6 @@ public class AddressBookSystem {
                     break;
                 case 5:
                     return;
-                /**
-                 * suppose all cases are false then execute default case
-                 */
                 default:
                     System.out.println("Invalid Choice!");
                     break;
@@ -575,4 +524,3 @@ public class AddressBookSystem {
         }
     }
 }
-
