@@ -15,6 +15,7 @@ import java.util.Set;
 public class AddressBookMain {
     /**
      * create a main method all program execute in main method
+     *
      * @param args no argument
      */
     public static void main(String[] args) {
@@ -37,7 +38,7 @@ public class AddressBookMain {
              * then display al the option
              */
             System.out.println("\nWelcome to Address Book System");
-            System.out.println("1. New Address Book \n2. Select Address Book \n3. Delete Address Book \n4. Search Contact Data \n5. View Contact Data \n6. Exit");
+            System.out.println("1. New Address Book \n2. Select Address Book \n3. Delete Address Book \n4. Search Contact Data \n5. Exit");
             /**
              * choose the option what u want
              */
@@ -93,14 +94,7 @@ public class AddressBookMain {
                     System.out.println("Welcome to the search option:");
                     addressBook.searchByOptions();
                 case 5:
-                    System.out.println("Welcome to view By Option:");
-                    addressBook.viewByOption(addressBookMap);
-                    break;
-                case 6:
-                    /**
-                     * closing the sacnner
-                     */
-                    sc.close();
+                    sc.close();// for closing the program
                     return;
                 default:
                     System.out.println("You Entered Invalid Choice....!");
