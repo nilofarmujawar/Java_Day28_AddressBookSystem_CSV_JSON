@@ -1,661 +1,578 @@
 package com.day28;
-/**
- *  UC14 :- Ability to Read/Write the Address Book with Persons Contact as CSV File
- *          - Use OpenCSV Library
- *  UC15 :- Ability to Read or Write the Address Book with Persons Contact as JSON File
- *          - Use GSON Library
- *
- */
 
 /**
- * import IOException class
- * import all classe in util package
+ * import all class in java util package
+ * import collectors class
+ * import function class
  */
 
-import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.function.Function;
 
 /**
- * crete a  class name as AddressBookSystem
+ * create a class name as AddressBookSystem
  */
 public class AddressBookSystem {
     /**
-     * create a main method ,all program execute in main method
-     * @param args
+     * create a arraylist object name as contactList
+     * Store the person all details in object
      */
-    public static void main(String[] args) {
-        /**
-         * 1st display welcome msg
-         */
-        System.out.println("Welcome to Address Book Program");
+    public static ArrayList<Contacts> contactList = new ArrayList<>();
 
-        /**
-         * crete a object for AddressBook class object name as addressBookMain
-         */
-        AddressBook addressBookMain = new AddressBook();
-        /**
-         * crete object for AddressBookFileNIO class, object name as openCSVService
-         */
-        AddressBookFileNIO addBookFileNIO = new AddressBookFileNIO();
-        /**
-         * crete object for OpenCSVService class, object name as openCSVService
-         */
-        OpenCSVService openCSVService = new OpenCSVService();
-        /**
-         * crete object for JSONService class, object name as JSONService
-         */
-        JSONService jsonService = new JSONService();
-        /**
-         * crete object for scanner class, object name as input
-         */
-        Scanner input = new Scanner(System.in);
+    /**
+     * create a object for map,object name is nameHashMap
+     * store persons name in this object
+     */
+    public static Map<String, Contacts> nameHashMap = new HashMap<String, Contacts>();
+    /**
+     * create a object for map,object name is nameHashMap
+     * store the city of person in this object
+     */
+    public static Map<String, Contacts> cityHashMap = new HashMap<String, Contacts>();
+    /**
+     * create a object for map,object name is StateHashMap
+     * store the State of person in this object
+     */
+    public static Map<String, Contacts> stateHashMap = new HashMap<String, Contacts>();
+    /**
+     *  creating scanner class object
+     *  scanner class used to taking input form user
+     */
+    static Scanner sc = new Scanner(System.in);
+    /**
+     * creating an object for AddressBookSystem class object name as addressBook
+     */
+    static AddressBookSystem addressBook = new AddressBookSystem();
 
+    /**
+     * create a method name as addContact,this is parameterized method
+     * this method is boolean type that means their output is true or false
+     * @param contact in contactlist
+     * @return true
+     */
+    public boolean addContact(Contacts contact) {
+        List<Contacts> checkByName = searchByName(contact.getFirstName());
+        for (Contacts equalName : checkByName)
+            if (equalName.equals(contact))
+                return false;
+        contactList.add(contact);
+        return true;
+    }
+
+    /**
+     * create a method name as searchByName this is parametrized method
+     * @param name of person in contactlist
+     * @return search name
+     */
+    public List<Contacts> searchByName(String name) {
+        /**
+         * collection list of element
+         * stream and lambda for find filter given name from arraylist
+         */
+        return contactList.stream().filter(person -> person.getFirstName().equalsIgnoreCase(name))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * create a method name as searchByCity in this method we search the pesron is their city name
+     * @param city person
+     * @return person
+     */
+    public List<Contacts> searchByCity(String city) {
+        /**
+         * collection list of element
+         * stream and lambda for find filter given city from arraylist
+         */
+        return contactList.stream().filter(person -> person.getCity().equalsIgnoreCase(city))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * create a method name as searchByState in this method we search the person is their State name
+     * @param state person
+     * @return person
+     */
+    public List<Contacts> searchByState(String state) {
+        /**
+         * collection list of element
+         * stream and lambda for find filter given State from arraylist
+         */
+        return contactList.stream().filter(person -> person.getState().equalsIgnoreCase(state))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Method to view person by name
+     * @param nameHashMap persons name
+     */
+    public static void viewByName(Map<String, Contacts> nameHashMap) {
+        nameHashMap.entrySet().stream().forEach(e -> System.out.println(e.getKey() + "=" + e.getValue().toString()));
+    }
+
+    /**
+     * Method to view person by city
+     * @param cityHashMap persons city
+     */
+    public static void viewByCity(Map<String, Contacts> cityHashMap) {
+        cityHashMap.entrySet().stream().forEach(e -> System.out.println(e.getKey() + "=" + e.getValue().toString()));
+    }
+
+    /**
+     * Method to view person by state
+     * @param stateHashMap persons state
+     */
+    public static void viewByState(Map<String, Contacts> stateHashMap) {
+        stateHashMap.entrySet().stream().forEach(e -> System.out.println(e.getKey() + "=" + e.getValue().toString()));
+    }
+
+    /**
+     * creating sortby method for sorting the data
+     */
+    public static List<Contacts> sortBy(Function<? super Contacts, ? extends String> key) {
+        /**
+         * in contactList sorted the data and comapring with key and collect to the previous result in list
+         */
+        return contactList.stream().sorted(Comparator.comparing(key)).collect(Collectors.toList());
+    }
+    /**
+     * creating sortbyZip method for sorting the data by perons zip code
+     */
+    public static List<Contacts> sortByZip(Function<? super Contacts, ? extends Long> key) {
+        /**
+         * in contactList sorted the data and comapring with key and collect to the previous result in list
+         */
+        return contactList.stream().sorted(Comparator.comparing(key)).collect(Collectors.toList());
+    }
+    /**
+     * creating sortByName method for sorting the data by perons Name
+     */
+    public static List<Contacts> sortByName(Function<? super Contacts, ? extends String> key) {
+        /**
+         * in contactList sorted the data and comapring with key and collect to the previous result in list
+         */
+        return contactList.stream().sorted(Comparator.comparing(key)).collect(Collectors.toList());
+    }
+
+    /**
+     * create a method name as editContact this is parameterized method
+     * @param current details
+     * @param edit edit the what u want
+     * @return editing new data
+     */
+    public boolean editContact(Contacts current, Contacts edit) {
+        /**
+         * if condition is true then return false
+         */
+        if (!contactList.contains(current))
+            return false;
+        /**
+         * remove current data in contactlist
+         */
+        contactList.remove(current);
+        /**
+         * add the newly data in contactList
+         */
+        contactList.add(edit);
+        /**
+         * both are ture then return true
+         */
+        return true;
+    }
+
+    /**
+     * create a method for delete contact, this is parameterized method
+     * @param contacts in contactlist
+     * @return delete contact
+     */
+    public boolean deleteContact(Contacts contacts) {
+        /**
+         * delete the contact in contactList
+         */
+        contactList.remove(contacts);
+        return true;
+    }
+
+    /**
+     * for showing output details
+     * @return result
+     */
+    @Override
+    public String toString() {
+        /**
+         * if contact list is empty then return no contacts found
+         */
+        if (contactList.isEmpty())
+            return "No contacts found!";
+        String result = new String();
+        /**
+         * using for loop check the condition and search the contactList in specific position
+         * then update
+         */
+        for (int i = 0; i < contactList.size(); i++) {
+            result += " " + contactList.get(i);
+        }
+        return result;
+    }
+
+    /**
+     * create a method name as readContact
+     * method for adding details
+     * @return firstName,lastName,email,phoneNumber,City,Address,Zip,State
+     */
+    public static Contacts readContact() {
+        /**
+         * create a scanner class object
+         * scanner is used for geeting input from user
+         */
+        Scanner sc = new Scanner(System.in);
+        /**
+         * user input for first name in string type
+         */
+        System.out.print("Enter First Name: ");
+        String firstName = sc.nextLine();
+        /**
+         * user input for last name in string type
+         */
+        System.out.print("Enter Last Name: ");
+        String lastName = sc.nextLine();
+        /**
+         * user input for address in string type
+         */
+        System.out.print("Enter Address: ");
+        String address = sc.nextLine();
+        /**
+         * user input for city in string type
+         */
+        System.out.print("Enter City: ");
+        String city = sc.nextLine();
+        /**
+         * user input for state in string type
+         */
+        System.out.print("Enter State: ");
+        String state = sc.nextLine();
+        /**
+         * user input for Zip in integer type
+         */
+        System.out.print("Enter Zip Code: ");
+        int zip = sc.nextInt();
+        sc.nextLine();
+        /**
+         * user input for phone number in long type
+         */
+        System.out.print("Enter Phone Number: ");
+        Long phoneNumber = sc.nextLong();
+        sc.nextLine();
+        /**
+         * user input for Email Id in string type
+         */
+        System.out.print("Enter Email ID: ");
+        String email = sc.nextLine();
+        /**
+         * return new contacts
+         */
+        return new Contacts(firstName, lastName, address, city, state, zip, phoneNumber, email);
+    }
+
+    /**
+     * create a method name as addressBookOptions
+     * method for show option for contacts
+     * @param addressBook show contacts
+     */
+    public static void addressBookOptions(AddressBookSystem addressBook) {
+        /**
+         * create object for scanner class
+         */
+        Scanner sc = new Scanner(System.in);
         while (true) {
             /**
-             * choose the option what u want
+             * chosse option for what u want
              */
-            System.out.println("Choose the option between 1 - 18");
-            System.out.println("1. Add address book to the system");
-            System.out.println("2. Edit contact details of the address book");
-            System.out.println("3. Delete contact details of the address book");
-            System.out.println("4. Show particular address book by its name");
-            System.out.println("5. Show address book system");
-            System.out.println("6. Search person by the city or sate");
-            System.out.println("7. View person by the city or state");
-            System.out.println("8. Count by city or sate");
-            System.out.println("9. Sort the address book by City");
-            System.out.println("10. Sort the address book by State");
-            System.out.println("11. Sort the address book by Zip");
-            System.out.println("12. Writing data to file");
-            System.out.println("13. Reading data from file");
-            System.out.println("14. Writing data to CSV");
-            System.out.println("15. Reading data from CSV");
-            System.out.println("16. Writing data to JSON");
-            System.out.println("17. Reading data from JSON");
-            System.out.println("18. Exit");
-
-            String option = input.next();
-
-            /**
-             * If u choose option 1
-             * Adding address book to the system
-             */
-            if (option.equals("1")) {
-                System.out.println("Number of Address Book to be added:");
-                int noOfAddressBook = input.nextInt();
-
-                /**
-                 * using for loop for count andress book and enter the name of address book
-                 */
-                for (int i = 0; i < noOfAddressBook; i++) {
-                    System.out.println("Enter the name of the Address Book");
-                    input.nextLine();
-                    String addressBookName = input.nextLine();
-
+            System.out.println("\n-------------------------- Address Book Contact Option --------------------------");
+            System.out.println("1. Add contact details");
+            System.out.println("2. Edit contact details");
+            System.out.println("3. Delete contact details");
+            System.out.println("4. Show contacts details");
+            System.out.println("5. Back to main menu");
+            System.out.print("Enter Your choice: ");
+            int choice = sc.nextInt();
+            sc.nextLine();
+            switch (choice) {
+                case 1:
                     /**
-                     * enter the persons no what u want
+                     * call addcontact with passing method readcontact
                      */
-                    System.out.println(
-                            "Enter the number of person's details to be added in address book: " + addressBookName);
-                    int noOfPerson = input.nextInt();
-
+                    if (addressBook.addContact(readContact()))
                     /**
-                     * crete a set, crete object name as phonebook
+                     *  create a new contact check in address book this contact duplicate or not
+                     *  they are not duplicate then display this msg
                      */
-                    Set<ContactPerson> phoneBook = new HashSet<>();
+                        System.out.println("Contact Added Successfully....!");
                     /**
-                     * calling the method
+                     * if duplicate contact present in address book then print this msg
                      */
-                    addressBookMain.setAddressBook(phoneBook);
+                    else
+                        System.out.println("Contact Already Exist....!");
+                    break;
+                case 2:
                     /**
-                     * using for loop they will count of how many persons is add in address book
+                     * if u want edit ur 1st name then enter the first name in contact
                      */
-                    for (int j = 0; j < noOfPerson; j++) {
+                    System.out.println("Enter First name to edit contact: ");
+                    String name = sc.nextLine();
+                    /**
+                     * list of equal first name
+                     */
+                    List<Contacts> equalName = addressBook.searchByName(name);
+                    /**
+                     * if not match found
+                     */
+                    if (equalName.isEmpty())
+                    /**
+                     * match not fount then display data not found msg
+                     */
+                        System.out.println("Data Not Found....!");
+                    /**
+                     * if only one equal match found
+                     */
+                    else if (equalName.size() == 1) {
                         /**
-                         * fill the details of those persons
+                         * call edit method with name and method
                          */
-                        System.out.println("Enter the details of the Contact Person");
-                        ContactPerson contactPerson = addressBookMain.addContactPersonDetails(input);
+                        addressBook.editContact(equalName.get(0), readContact());
                         /**
-                         * calling the addContactPerson from addressBookMain object
+                         * parameter
                          */
-                        addressBookMain.addContactPerson(contactPerson);
+                        System.out.println("Contact data modified....!");
+                    } else {
                         /**
-                         * persons firstname and last name
-                         * for ex -Nilofar Mujawar
+                         * if more than one firstname match found in equal name list
                          */
-                        String name = contactPerson.getFirstName() + " " + contactPerson.getLastName();
-                        /**
-                         * all the details add then display this msg
-                         */
-                        System.out.println("The details of the " + name + " is added to the Address Book: "
-                                + addressBookName + " successfully.");
+                        equalName.forEach(x -> System.out.println(equalName.indexOf(x) + "  " + x.toString()));
+                        System.out.println("Enter index to edit : ");
+                        int i = sc.nextInt();
+                        sc.nextLine();
+                        addressBook.editContact(equalName.get(i), readContact());
+                        System.out.println("Contact Modified....!");
                     }
-
+                    break;
+                case 3:
+                    System.out.println("Enter First name to delete contact: ");
+                    name = sc.nextLine();
+                    equalName = addressBook.searchByName(name);
+                    if (equalName.isEmpty())
+                        System.out.println("Data Not Found.....!");
+                    else if (equalName.size() == 1) {
+                        addressBook.deleteContact(equalName.get(0));
+                        System.out.println("Contact data deleted....!");
+                    } else {
+                        equalName.forEach(x -> System.out.println(equalName.indexOf(x) + "  " + x.toString()));
+                        System.out.println("Enter an index to delete");
+                        int index = sc.nextInt();
+                        sc.nextLine();
+                        addressBook.deleteContact(equalName.get(index));
+                        System.out.println("Contact data deleted....!");
+                    }
+                    break;
+                case 4:
                     /**
-                     * set the addressbook
+                     * call tostring method for showing details
                      */
-                    Set<ContactPerson> addressBook = addressBookMain.getAddressBook();
-                    /**
-                     * calling addAddressBookToSystem Frome addressBookMain object
-                     */
-                    addressBookMain.addAddressBookToSystem(addressBookName, addressBook);
-
-                    System.out.println("Address Book: " + addressBookName + " is successfully added to the system.");
-                }
-                continue;
+                    System.out.println(addressBook.toString());
+                    break;
+                case 5:
+                    return;
+                /**
+                 * suppose all cases are false then execute default case
+                 */
+                default:
+                    System.out.println("Invalid Choice!");
+                    break;
             }
+        }
+    }
 
-            /**
-             * if u choose option 2
-             * Editing contact details of the address book
-             */
-            if (option.equals("2")) {
-                /**
-                 * enter the name of address book what u want and select the person details to be edited
-                 */
-                System.out.println("Enter the name of the address book of which person's details to be edited:");
-                input.nextLine();
-                /**
-                 * addres book name in string type
-                 */
-                String addressBookName = input.nextLine();
-                /**
-                 * if in addressBookMain in present what u want address book name is edited then,
-                 */
-                if (addressBookMain.isPresentAddressBook(addressBookName)) {
-                    /**
-                     * enter the persons whose details to b edited
-                     */
-                    System.out.println("Enter the name of the person whose details to be edited:");
-                    /**
-                     * person name in string type
-                     */
-                    String personName = input.nextLine();
-                    /**
-                     *
-                     */
-                    if (addressBookMain.editContactPersonDetails(addressBookName, personName, input))
-                        System.out.println("The contact details of the " + personName + " from " + addressBookName
-                                + " is edited.");
-                    else
-                        System.out.println("Sorry, the contact details of the " + personName + " is not found in "
-                                + addressBookName + ". We can't proceed to edit.");
-                } else
-                    System.out.println("Sorry, the address book: " + addressBookName
-                            + " is not found in the system. We can't proceed to edit.");
-                continue;
-            }
-
-            /**
-             * if u choose option 3
-             * Deleting contact details of the address book
-             */
-            if (option.equals("3")) {
-                /**
-                 * write the name of the address book from which u want to deleted that persons information
-                 */
-                System.out.println("Enter the name of the address book from which person's details to be deleted:");
-                input.nextLine();
-                /**
-                 * addressbook name is string type
-                 */
-                String addressBookName = input.nextLine();
-                /**
-                 * if the address book name is present in the addressbookmain,whose name you have written then
-                 */
-                if (addressBookMain.isPresentAddressBook(addressBookName)) {
-                    /**
-                     * display the choice ,enter the name of person whose details to b deleted
-                     */
-                    System.out.println("Enter the name of the person whose details to be deleted:");
-                    /**
-                     * person name is string type
-                     */
-                    String personName = input.nextLine();
-                    /**
-                     * if the name of the person have u written in choice time and this name is present in addressbook  what u selected
-                     * and this address book present in addressbookMain then
-                     */
-                    if (addressBookMain.deleteContactPersonDetails(addressBookName, personName))
-                    /**
-                     * display this msg is the contact details of the persons name frome addressbookname what u selected is delect
-                     */
-                        System.out.println("The contact details of the " + personName + " from " + addressBookName
-                                + " is deleted.");
-                    /**
-                     * if  1st condition is false then execute this condition
-                     */
-                    else
-                    /**
-                     * if person name what u enter this is not present in address book then dispay this statment
-                     */
-                        System.out.println("Sorry, the contact details of the " + personName + " is not found in "
-                                + addressBookName + ". We can't proceed to delete.");
-                } else
-                /**
-                 * if u put it wrong address book name then display this msg
-                 */
-                    System.out.println("Sorry, the address book: " + addressBookName
-                            + " is not found in the system. We can't proceed to delete.");
-                continue;
-            }
-
-            /**
-             * if u choose option no 4
-             * Showing particular address book by its name
-             */
-            if (option.equals("4")) {
-                /**
-                 * display this msg and u put the address book name what u want
-                 */
-                System.out.println("Enter the name of the address book:");
-                input.nextLine();
-                /**
-                 * addressbook name is string type
-                 */
-                String addressBookName = input.nextLine();
-                /**
-                 * if u put the address book name what u want, and this address book is presnt in addressbookmain then
-                 */
-                if (addressBookMain.isPresentAddressBook(addressBookName))
-                /**
-                 * show address book name in present addressbookmain
-                 */
-                    addressBookMain.showAddressBook(addressBookName);
-                /**
-                 * ist constion is false then else satement is execute
-                 */
-                else
-                /**
-                 * if by chance u written wrong address book name then display this msg
-                 */
-                    System.out.println("Sorry, Address Book: " + addressBookName + " is not present in the system.");
-                continue;
-            }
-
-            /**
-             * if u choose option 5
-             * Show address book system
-             */
-            if (option.equals("5")) {
-                /**
-                 * calling showAddressbookSystem method from the addressBookMain object
-                 */
-                addressBookMain.showAddressBookSystem();
-                continue;
-            }
-
-            /**
-             * if u choose option 6
-             * Searching person by the city or sate
-             */
-            if (option.equals("6")) {
-                /**
-                 * enter city name of person
-                 */
-                System.out.println("Enter the state/city name to search the persons:");
-                input.nextLine();
-                /**
-                 * cityname is string type
-                 */
-                String cityOrStateName = input.nextLine();
-                /**
-                 * create list ,search a person in addressbookMain by city or state
-                 */
-                List<String> personsInCityOrState = addressBookMain.searchPersonByCityorState(cityOrStateName);
-                /**
-                 * if u enter the city or state name and the person is not present in address book then
-                 */
-                if (personsInCityOrState.size() == 0)
-                /**
-                 * display this msg and city name what u searched for
-                 */
-                    System.out.println("Sorry, there is no person in the " + cityOrStateName + ".");
-                /**
-                 * if 1st condition is false then else condition is execute
-                 */
-                else {
-                    /**
-                     * display list of persons and city or state name
-                     */
-                    System.out.println("The list of persons in the " + cityOrStateName + ":");
-                    /**
-                     * using  for each loop if got the person name by in city or state then print person name
-                     */
-                    personsInCityOrState.stream().forEach(personName -> System.out.println(personName));
-                }
-                continue;
-            }
-
-            /**
-             * if u choose option 7
-             * View person by the city or state
-             */
-            if (option.equals("7")) {
-                /**
-                 * enter the persons city name for view the person
-                 */
-                System.out.println("Enter the state/city name to view the persons:");
-                input.nextLine();
-                /**
-                 * city or statename in string type
-                 */
-                String cityOrStateName = input.nextLine();
-                /**
-                 * using map and list ,view person by city or state in addressbookmain
-                 */
-                Map<String, List<String>> personCityStateMap = addressBookMain.viewPersonByCityOrState(cityOrStateName);
-                if (personCityStateMap.size() == 0)
-                /**
-                 * if u enter wrong city name then display this msg
-                 */
-                    System.out.println("Sorry, there is no any details.");
-                /**
-                 * if 1st statement is false then else condition is excecute
-                 */
-                else {
-                    /**
-                     * if u put the correct city or state name
-                     */
-                    System.out.println("The mapping of city/state and persons:");
-                    /**
-                     * display the person name
-                     */
-                    System.out.println(personCityStateMap);
-                }
-                continue;
-            }
-
-            /**
-             * if u choose option 8
-             * Count by city or sate
-             */
-            if (option.equals("8")) {
-                /**
-                 * 1st enter the city or state name to the count person
-                 */
-                System.out.println("Enter the state/city name to count the persons:");
-                input.nextLine();
-                /**
-                 * city or state name string type
-                 */
-                String cityOrStateName = input.nextLine();
-                /**
-                 * create list, search the person by city or state in addressbookmain and store in personInCityOrState
-                 */
-                List<String> personsInCityOrState = addressBookMain.searchPersonByCityorState(cityOrStateName);
-                /**
-                 * if u enter wrong city or state name then
-                 */
-                if (personsInCityOrState.size() == 0)
-                /**
-                 * display sorry there is no person in the cityname.
-                 */
-                    System.out.println("Sorry, there is no person in the " + cityOrStateName + ".");
-                /**
-                 * suppose 1st condition is false then else is executed
-                 */
-                else {
-                    /**
-                     * calling countPersonByCityorState method from the addressBookMain object
-                     */
-                    addressBookMain.countPersonByCityorState(cityOrStateName);
-                }
-                continue;
-            }
-
-            /**
-             * if u choose option 9
-             * Sort person details by the city or state
-             */
-            if (option.equals("9")) {
-                /**
-                 * crete map and list,in this case 1st we sorted the city and then persons view by city in addressbookmain
-                 * and if got this person then store the data in personCitySortedMap
-                 */
-                Map<String, List<ContactPerson>> personCitySortedMap = addressBookMain.viewSortedByCity();
-                /**
-                 * if u put the wrong city name then
-                 */
-                if (personCitySortedMap.size() == 0)
-                /**
-                 * display this msg
-                 */
-                    System.out.println("Sorry, there is no any details.");
-                /**
-                 * if 1t condition is false u put the correct city name then
-                 */
-                else {
-                    /**
-                     * display this msg with city name
-                     */
-                    System.out.println("The address books are sorted by city:");
-                    /**
-                     * calling printSortedMap method from addressBookMain object
-                     */
-                    addressBookMain.printSortedMap(personCitySortedMap);
-                }
-                continue;
-            }
-
-            /**
-             * if u choose option 10
-             * Sort person details by the city or state
-             */
-            if (option.equals("10")) {
-                /**
-                 * crete map ,list 1st sorted by state and then view the person by state in addressbookmain
-                 * if got this then store the data in personStateSortedMap
-                 */
-                Map<String, List<ContactPerson>> personStateSortedMap = addressBookMain.viewSortedByState();
-                /**
-                 * if u put the wrong state name then
-                 */
-                if (personStateSortedMap.size() == 0)
-                /**
-                 * display this msg
-                 */
-                    System.out.println("Sorry, there is no any details.");
-                /**
-                 * u put the correct state name and suppose 1st condition is false then else statement execute
-                 */
-                else {
-                    /**
-                     * if u put the correct state name then display this msg with statename
-                     */
-                    System.out.println("The address books are sorted by state:");
-                    /**
-                     * calling printSortedMap method from addressBookMain object
-                     */
-                    addressBookMain.printSortedMap(personStateSortedMap);
-                }
-                continue;
-            }
-
-            /**
-             * if choose option no 11
-             * Sort person details by the city or state
-             */
-            if (option.equals("11")) {
-                /**
-                 * crete map,list ,1st sorted the data by zip then view the person by zip,if got this details then this details
-                 * store in personZipSortedMap
-                 */
-                Map<String, List<ContactPerson>> personZipSortedMap = addressBookMain.viewSortedByZip();
-                /**
-                 * if u put the zip code incorrect then
-                 */
-                if (personZipSortedMap.size() == 0)
-                /**
-                 * display this msg
-                 */
-                    System.out.println("Sorry, there is no any details.");
-                /**
-                 * if 1st condition was false then execute else statment
-                 */
-                else {
-                    /**
-                     * u put the correct zip then showing the result with zip code
-                     */
-                    System.out.println("The address books are sorted by zip:");
-                    /**
-                     * calling printSortedMap method from addressBookMain object
-                     */
-                    addressBookMain.printSortedMap(personZipSortedMap);
-                }
-                continue;
-            }
-
-            /**
-             * if u choose option no 12
-             * Writing data into file
-             */
-            if (option.equals("12")) {
-                /**
-                 * here we using try catch block for exception handling
-                 */
-                try {
-                    /**
-                     * calling the method from object
-                     */
-                    addBookFileNIO.writeToFile(addressBookMain.getAddressBookSystem());
-                } catch (IOException e) {
-                    e.getMessage();
-                }
-                continue;
-            }
-
-            /**
-             * if u choose the option no 13
-             * Reading data from file
-             */
-            if (option.equals("13")) {
-                /**
-                 * using try catch block for exception handling
-                 */
-                try {
-                    /**
-                     * calling readFromFile method from  addBookFileNIO object
-                     */
-                    addBookFileNIO.readFromFile();
-                } catch (IOException e) {
-                    e.getMessage();
-                }
-                continue;
-            }
-
-            /**
-             * if u choose option no 14
-             * Writing data into CSV
-             */
-            if (option.equals("14")) {
-                /**
-                 * using try catch block for execption handling
-                 */
-                try {
-                    /**
-                     * calling method from object
-                     */
-                    openCSVService.writetoCsv(addressBookMain.getAddressBookSystem());
-                } catch (IOException e) {
-                    e.getMessage();
-                }
-                continue;
-            }
-
-            /**
-             * if choose the option no 15
-             * Reading data from CSV
-             */
-            if (option.equals("15")) {
-                /**
-                 * using try catch block for exception handling
-                 */
-                try {
-                    /**
-                     * calling readCsv method from openCSVService object
-                     */
-                    openCSVService.readCsv();
-                    /**
-                     * catch block
-                     */
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-                continue;
-            }
-
-            /**
-             * if u choose the option 16
-             * Writing data into JSON
-             */
-            if (option.equals("16")) {
-                /**
-                 * here we using try catch block fro exception handling
-                 */
-                try {
-                    /**
-                     * calling the method frome object
-                     */
-                    jsonService.writeJson(addressBookMain.getAddressBookSystem());
-                } catch (Exception e) {
-                    e.getMessage();
-                }
-                continue;
-            }
-
-            /**
-             * if u choose option no 17
-             * Reading data from JSON
-             */
-            if (option.equals("17")) {
-                /**
-                 * variable
-                 */
-                int x=0;
-                /**
-                 * here we using try catch block for exeption handling
-                 */
-                try {
-                    /**
-                     * calling readJson method from jsonService object and result store in x variable
-                     */
-                    x=jsonService.readJson();
-                    /**
-                     * print the result
-                     */
-                    System.out.println(x);
-                    /**
-                     * catch block
-                     */
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-                continue;
-            }
-
-            /**
-             * if u choose option 18
-             * Exiting from the address book system
-             */
-            if (option.equals("18")) {
-                /**
-                 * display thank you msg
-                 */
-                System.out.println("Thank you.");
-                /**
-                 * if 1st condtion is true then break the condtion means remaining condition is not execute
-                 */
+    /**
+     * create a method name as searchByOptions
+     */
+    public void searchByOptions() {
+        /**
+         * create object for  AddressBookSystem class,object name is addressBook
+         */
+        AddressBookSystem addressBook = new AddressBookSystem();
+        /**
+         * create object for scanner class
+         */
+        Scanner sc = new Scanner(System.in);
+        /**
+         * choose option
+         */
+        System.out.println("1. By name");
+        System.out.println("2. By city");
+        System.out.println("3. By state");
+        System.out.println("4. Back");
+        System.out.println("Your choice: ");
+        int choice = sc.nextInt();
+        sc.nextLine();
+        /**
+         * using switch case in this case search the person is their city or state
+         */
+        switch (choice) {
+            case 1:
+                System.out.println("Enter name: ");
+                String name = sc.nextLine();
+                contactList.forEach(book -> searchByName(name).forEach(System.out::println));
                 break;
+            case 2:
+                System.out.println("Enter city: ");
+                String city = sc.nextLine();
+                contactList.forEach(book -> searchByCity(city).forEach(System.out::println));
+                break;
+            case 3:
+                System.out.println("Enter state: ");
+                String state = sc.nextLine();
+                contactList.forEach(book -> searchByState(state).forEach(System.out::println));
+                break;
+            case 4:
+                return;
+            default:
+                System.out.println("INVALID CHOICE!");
+        }
+    }
+
+    /**
+     * create a method name as viewByOption this is parameterized method.
+     * this method for view element by option
+     * @param addressBookMap
+     */
+    public static void viewByOption(Map<String, AddressBookSystem> addressBookMap) {
+        /**
+         * create a object for scanner class
+         */
+        Scanner sc = new Scanner(System.in);
+        /**
+         * show this option
+         */
+        System.out.println("1. View By name");
+        System.out.println("2. View By city");
+        System.out.println("3. View By state");
+        System.out.println("4. Back");
+        /**
+         * enter ur choice what u want
+         */
+        System.out.print("Enter Your choice: ");
+        int choice = sc.nextInt();
+        sc.nextLine();
+        /**
+         * using switch case
+         */
+        switch (choice) {
+            case 1:
+                viewByName(nameHashMap);
+                break;
+            case 2:
+                viewByCity(cityHashMap);
+                break;
+            case 3:
+                viewByState(stateHashMap);
+                break;
+            case 4:
+                return;
+            default:
+                System.out.println("INVALID CHOICE!");
+        }
+    }
+
+    /**
+     * create a method name as countByOption
+     * this method to count element by option
+     */
+    public void countByOption() {
+        /**
+         * create a scanner class object
+         */
+        Scanner sc = new Scanner(System.in);
+        /**
+         * display all this options
+         */
+        System.out.println("1. Count City ");
+        System.out.println("2. Count State");
+        System.out.println("3. Back ");
+        /**
+         * choice ur option what u want
+         */
+        System.out.println("Enter Your Choice : ");
+        int choice = sc.nextInt();
+        sc.nextLine();
+        /**
+         * using switch case
+         */
+        switch (choice) {
+            case 1:
                 /**
-                 * if u choose wrong no like 19 etc then else condtion execute
+                 * Map<String, Long>  countCity  – this is the output result
+                 * Map that will store the grouped elements as keys and count their occurrences as values,
+                 * contactList.stream() – we convert the contactlist elements into Java stream to
+                 * process the collection in a declarative way
+                 * Collectors.groupingBy() – this is the method of Collectors class to
+                 * group objects by some property and store results in a Map instance
+                 * Collectors.counting() – this Collectors class method counts the number
+                 * of elements passed in the stream as a parameter
                  */
-            } else
-            /**
-             * if u choose wrong option then display this msg
-             */
-                System.out.print("You entered the invalid option. Please, ");
+                Map<String, Long> countCity = contactList.stream()
+                        .collect(Collectors.groupingBy(e -> e.getCity(), Collectors.counting()));
+                System.out.println(countCity + "\n");
+                break;
+            case 2:
+                Map<String, Long> countState = contactList.stream()
+                        .collect(Collectors.groupingBy(e -> e.getState(), Collectors.counting()));
+                System.out.println(countState + "\n");
+                break;
+            case 3:
+                return;
+            default:
+                System.out.println("Invalid Option");
+        }
+    }
+
+    /**
+     * create a method name as sortByOption
+     */
+    public void sortByOption() {
+        /**
+         * display this options
+         */
+        System.out.println("1. By first name");
+        System.out.println("2. By last name");
+        System.out.println("3. By city");
+        System.out.println("4. By state");
+        System.out.println("5. By zip");
+        System.out.println("6. Back");
+        /**
+         * choose the option what u want
+         */
+        System.out.print("Your choice: ");
+
+        int choice = sc.nextInt();
+        sc.nextLine();
+        switch (choice) {
+            case 1:
+                AddressBookSystem.sortBy(Contacts::getFirstName).forEach(System.out::println);
+                break;
+            case 2:
+                AddressBookSystem.sortBy(Contacts::getLastName).forEach(System.out::println);
+                break;
+            case 3:
+                AddressBookSystem.sortBy(Contacts::getCity).forEach(System.out::println);
+                break;
+            case 4:
+                AddressBookSystem.sortBy(Contacts::getState).forEach(System.out::println);
+                break;
+            case 5:
+                return;
+            default:
+                System.out.println("INVALID CHOICE!");
         }
     }
 }
+
