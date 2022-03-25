@@ -1,24 +1,14 @@
 package com.day28;
 
 /**
- * UC1 :- Ability to create a Contacts in Address Book with first and last names, address,
- *        city, state, zip, phone number and email...
- * UC2 :- Ability to add a new Contact to Address Book
- * UC3 :- Ability to edit existing contact person using their name
- * UC4 :- Ability to delete a person using person's name
- * UC5 :- Ability to add multiple person to Address Book
- * UC6 :- Refactor to add multiple Address Book to the System Each Address Book has a unique Name
- * UC7 :- Ability to ensure there is no Duplicate Entry of the same Person in a particular Address Book
- * UC8 :- Ability to search Person in a City or State across the multiple AddressBook
- * UC9 :- Ability to view Persons by City or State
- * UC10 :- Ability to get number of contact persons i.e. count by City or State
+ * import hashmap,Iterator,Map,Scanner,Set.
  */
 
-/**
- * import class
- */
-import java.util.*;
-
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
 /**
  * create a class name as AddressBookMain
  */
@@ -47,8 +37,7 @@ public class AddressBookMain {
              * then display al the option
              */
             System.out.println("\nWelcome to Address Book System");
-
-            System.out.println("1. New Address Book \n2. Select Address Book \n3. Delete Address Book \n4. Search Contact Data \n5.View Contact Data \n6.Count Contacts \n7. Exit");
+            System.out.println("1. New Address Book \n2. Select Address Book \n3. Delete Address Book \n4. Search Contact Data \n5. View Contact Data \n6. Exit");
             /**
              * choose the option what u want
              */
@@ -108,12 +97,8 @@ public class AddressBookMain {
                     addressBook.viewByOption(addressBookMap);
                     break;
                 case 6:
-                    System.out.println("Welcome to the couter");
-                    addressBook.countByOption();
-                    break;
-                case 7:
                     /**
-                     * closing the scanner
+                     * closing the sacnner
                      */
                     sc.close();
                     return;
