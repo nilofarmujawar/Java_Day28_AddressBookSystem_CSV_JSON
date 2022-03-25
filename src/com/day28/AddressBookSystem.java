@@ -7,7 +7,6 @@ package com.day28;
  * UC3 :- Ability to edit existing contact person using their name
  * UC4 :- Ability to delete a person using person's name
  * UC5 :- Ability to add multiple person to Address Book
- * UC6 :- Refactor to add multiple Address Book to the System Each Address Book has a unique Name
  *
  */
 
@@ -16,7 +15,6 @@ package com.day28;
  */
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
 
 /**
@@ -35,8 +33,6 @@ public class AddressBookSystem{
      */
     static Scanner sc = new Scanner(System.in);
 
-    static HashMap<String, ArrayList<Contacts>> hashmap = new HashMap<>();
-    static AddressBookSystem details = new AddressBookSystem();
     /**
      * This method is used to add details to address book
      */
@@ -180,176 +176,62 @@ public class AddressBookSystem{
     }
 
     /**
-     * create a method name as createAddressBook
-     */
-    public void createAddressBook() {
-
-        while (true) {
-            /**
-             * 1st choose the option what u want
-             */
-            System.out.println("Choose what you want to do: ");
-            System.out.println("1.Create new address book.\n2.Edit existing address book.\n3.Display all address books.\n4.exit");
-            int choose = sc.nextInt();
-            /**
-             * if you choose option 4 then exist in process
-             */
-            if (choose == 4) {
-                System.out.println("Exited");
-                break;
-            }
-
-            /**
-             * if u choose option 1 create new address book
-             * then enter the name of address book
-             */
-            switch (choose) {
-                case 1:
-                    System.out.println("Enter the name of address book: ");
-                    String address_name = sc.next();
-
-                    /**
-                     * condition to check for uniqueness of address book.
-                     */
-                    if (hashmap.containsKey(address_name)) {
-                        System.out.println("Adress book name exits, enter different name");
-                        break;
-                    }
-                    /**
-                     * create a array list object name as new_address_book
-                     */
-                    ArrayList<Contacts> new_address_book = new ArrayList<>();
-                    /**
-                     * here arrayDetails is the 1st object and new_address_book is 2nd but both are storing all details
-                     */
-                    arrayDetails = new_address_book;
-                    while (true) {
-                        /**
-                         * choose what u want to do
-                         * if u choose add details then all details put it like first name ,
-                         * last name,email,zip,mobile no,city,state,address etc
-                         * if you choice 5 then exit in all process
-                         */
-                        System.out.println("Choose what you want to do: ");
-                        System.out.println("1.Add details.\n2.Edit details.\n3.Delete contact. \n4.Display Contact\n5.Exit");
-                        int choose1 = sc.nextInt();
-                        if (choose1 == 4) {
-                            System.out.println("Exited");
-                            break;
-                        }
-                        /**
-                         * using switch case
-                         * in the switch case we are calling the method
-                         */
-                        switch (choose1) {
-                            case 1:
-                                details.addDetails();
-                                break;
-                            case 2:
-                                details.editDetails();
-                                break;
-                            case 3:
-                                details.deleteDetails();
-                                break;
-                            case 4:
-                                details.display();
-                                break;
-                            default:
-                                System.out.println("Choose valid option");
-                                break;
-                        }
-                        hashmap.put(address_name, arrayDetails);
-                        System.out.println(hashmap);
-                    }
-                    break;
-
-                case 2:
-                    System.out.println("Enter the name of address book: ");
-                    String address_name_old = sc.next();
-
-                    /**
-                     * condition to check whether address book exists or no.
-                     */
-                    if (hashmap.containsKey(address_name_old)) {
-                        /**
-                         * create a array list object name as old_address_book
-                         */
-                        ArrayList<Contacts> old_address_book = new ArrayList<>();
-                        /**
-                         * arrayDetails is 1st object in store all the data
-                         * now here all the data store in old address book
-                         */
-                        arrayDetails = old_address_book;
-                        arrayDetails = hashmap.get(address_name_old);
-                        while (true) {
-                            /**
-                             * choose the option what u want
-                             */
-                            System.out.println("Choose what you want to do: ");
-                            System.out.println("1.Add details.\n2.Edit details.\n3.Delete contact. \n4.Display contact.\n5.Exit");
-                            int choose1 = sc.nextInt();
-                            if (choose1 == 4) {
-                                System.out.println("Exited");
-                                break;
-                            }
-                            /**
-                             * switch case is used
-                             * in this switch case we are calling those method
-                             * if choose option 1 add contact then calling this method in switch case
-                             */
-                            switch (choose1) {
-                                case 1:
-                                    details.addDetails();
-                                    break;
-                                case 2:
-                                    details.addDetails();
-                                    break;
-                                case 3:
-                                    details.addDetails();
-                                    break;
-                                case 4:
-                                    details.display();
-                                    break;
-                                default:
-                                    System.out.println("Choose valid option");
-                                    break;
-                            }
-                            hashmap.put(address_name_old, arrayDetails);
-                            System.out.println(hashmap);
-                        }
-                        /**
-                         *
-                         */
-                    } else {
-                        System.out.println("Enter valid address book name");
-                    }
-                    break;
-
-                case 3:
-                    System.out.println(hashmap);
-                    break;
-
-                default:
-                    System.out.println("Enter valid option");
-
-            }
-        }
-    }
-
-    /**
      * create a main method all program execute in main method
-     * @param args
+     * @param args no arguments
      */
     public static void main(String[] args) {
         /**
-         * 1st print the welcome msg
+         * create a object name as details for  AddressBookSystem  class
+         * create object bcoz AddressBookSystem in this class all method is non static
          */
-        System.out.println("Welcome to Address Book Program");
+        AddressBookSystem details = new AddressBookSystem();
         /**
-         * calling method
-         * calling method = object name.method name
-         * here object is details and method is createAddressBook()
+         * declaration of variable
          */
-        details.createAddressBook();
+        int  input;
+        int ans;
+        /**
+         * create scanner class object
+         */
+        Scanner scanner = new Scanner(System.in);
+        /**
+         * using do while loop
+         */
+        do {
+            /**
+             * 1st print welcome msg
+             */
+            System.out.println("Welcome to Address Book Program");
+            System.out.println("What do you want to do: ");
+            System.out.println("1.Add details.\n2.Edit details.\n3.Delete Details.");
+            int choose = sc.nextInt();
+            /**
+             * switch case is used
+             * calling the method in switch case
+             */
+            switch (choose) {
+                case 1:
+                    details.addDetails();
+                    break;
+                case 2:
+                    details.editDetails();
+                    break;
+                case 3:
+                    details.deleteDetails();
+                    break;
+                default:
+                    System.out.println("Invalid! option");
+                    break;
+            }
+            /**
+             * in switch case got the condition then break the statement and get the user input
+             *
+             */
+            System.out.println("Do you want to continue?(0/1)");
+            ans=scanner.nextInt();
+            /**
+             * if while condition is true then update in do conditions.
+             */
+        }while(ans==1);
     }
 }
